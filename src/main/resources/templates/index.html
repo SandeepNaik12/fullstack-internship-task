@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>E-CART</title>
+	<link rel="stylesheet" href="css/index.css" />
+</head>
+<body>
+	<header>
+		<nav class="navbar">
+			<div class="logo">
+				<h1>E-CARTT</h1>
+			</div>
+			<div class="nav-content">
+				<ul>
+					<li><a href="/">Home</a></li>
+
+					<!-- If user is logged in -->
+					<li th:if="${user != null}"><span th:text="${user}"></span></li>
+					<li th:if="${user != null}"><a th:href="@{/logout}">Logout</a></li>
+
+					<!-- If user is NOT logged in -->
+					<li th:if="${user == null}"><a th:href="@{/login}">Login</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	
+	<section class="functionalities">
+		<button onclick="openAddModel(this)" th:attr="data-user=${user}">Add Product</button>
+		<!-- Simple alert message container -->
+		<div id="alertMessage" class="alert-message" style="display:none;"></div>
+	</section>
+
+	<div class="products-container">
+		<h2>Featured Products</h2>
+		<div class="products-grid">
+			<div class="product-card" th:each="product : ${products}" th:attr="data-id=${product.id}">
+				<img th:src="${product.imageUrl}" alt="not found" />
+				<div class="product-info">
+					<div class="product-meta">
+						<h3 th:text="${product.name}"></h3>
+						<p class="price">₹ <span th:text="${product.price}"></span></p>
+					</div>
+					<div class="product-core-detais">
+						<p class="description" th:text="${product.description}"></p>
+						<p class="category" th:text="${product.category}"></p>
+					</div>
+					 <div class="buttons">
+					 	<button type="button" class="edit-btn"
+				            th:data-id="${product.id}"
+				            th:data-name="${product.name}"
+				            th:data-price="${product.price}"
+				            th:data-description="${product.description}"
+				            th:data-category="${product.category}"
+				            th:data-image="${product.imageUrl}"
+				            onclick="openEditModalFromButton(this)" th:attr="data-user=${user}">
+				            Edit
+        			</button>
+					<button class="delete-btn"th:onclick="deleteProduct(this)" th:attr="data-user=${user}, data-id=${product.id}">Delete</button>
+					 </div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- ADD PRODUCT MODAL (Updated Design) -->
+	<div id="addProductModal" class="modal">
+		<div class="modal-content">
+			<h3>Add Product</h3>
+			<form id="addProductForm" th:action="@{/product}"
+				th:object="${product}" method="post">
+				<div class="form-row">
+					<div class="form-group">
+						<label for="addName">Product Name</label> <input type="text"
+							id="addName" th:field="*{name}" placeholder="Product name"
+							required>
+					</div>
+					<div class="form-group">
+						<label for="addPrice">Price</label> <input type="number"
+							id="addPrice" th:field="*{price}" placeholder="Price" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="addDescription">Description</label>
+					<textarea id="addDescription" th:field="*{description}" rows="3"
+						placeholder="Description" required></textarea>
+				</div>
+
+				<div class="form-row">
+					<div class="form-group">
+						<label for="addCategory">Category</label> <input type="text"
+							id="addCategory" th:field="*{category}" placeholder="Category"
+							required>
+					</div>
+					<div class="form-group">
+						<label for="addImageUrl">Image URL</label> <input type="text"
+							id="addImageUrl" th:field="*{imageUrl}" placeholder="http://..."
+							required>
+					</div>
+				</div>
+
+				<div class="form-buttons">
+					<button type="submit" class="save-btn">Save</button>
+					<button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+
+	<!-- EDIT PRODUCT MODAL -->
+	<div id="editProductModal" class="modal">
+		<div class="modal-content">
+			<h3>Edit Product</h3>
+			<form id="editProductForm">
+				<input type="hidden" id="editProductId">
+
+				<div class="form-row">
+					<div class="form-group">
+						<label for="editName">Product Name</label> <input type="text"
+							id="editName" required>
+					</div>
+					<div class="form-group">
+						<label for="editPrice">Price</label> <input type="number"
+							id="editPrice" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="editDescription">Description</label>
+					<textarea id="editDescription" rows="3" required></textarea>
+				</div>
+
+				<div class="form-row">
+					<div class="form-group">
+						<label for="editCategory">Category</label> <input type="text"
+							id="editCategory" required>
+					</div>
+					<div class="form-group">
+						<label for="editImageUrl">Image URL</label> <input type="text"
+							id="editImageUrl" required>
+					</div>
+				</div>
+
+				<div class="form-buttons">
+					<button type="submit" class="save-btn">Save</button>
+					<button type="button" class="cancel-btn" onclick="closeEditModal()">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+
+	<script type="text/javascript" th:src="@{/javascript/index.js}"></script>
+
+</body>
+</html>

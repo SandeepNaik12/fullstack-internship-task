@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - YouTube</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="icon" href="https://www.youtube.com/s/desktop/f8ed113d/img/favicon.ico">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>E-CART</h1>
+            <h2>Sign in</h2>
+            <p>to continue to E-CART</p>
+            <form th:action="@{/login}" method="post">
+                <input type="text" name="username" placeholder="Email or phone" required>
+                <input type="password" name="password" placeholder="Enter your password" required>
+                <button type="submit" th:href="@{/index}">Login</button>
+            </form>
+            <div class="footer">
+                <a th:href="@{/register}">Create account</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
