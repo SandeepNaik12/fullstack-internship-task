@@ -22,7 +22,7 @@ This project is part of my internship task. It demonstrates a **full stack E-com
 ## 🛠️ Tech Stack
 
 * **Backend:** Java, Spring Boot, Spring Security,Spring-Jpa
-* **Frontend:** HTML, CSS, JavaScript, Bootstrap
+* **Frontend:** HTML, CSS, JavaScript
 * **Database:** MySQL
 * **Build Tool:** Maven
 
